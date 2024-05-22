@@ -5,7 +5,7 @@ import readline from "readline";
 // --- Configuration ---
 
 const DEFAULT_OUTPUT_FILENAME = "project_prompt.txt";
-const SUPPORTED_FILE_TYPES = [".js"];
+const SUPPORTED_FILE_TYPES = [".js", ".ts", ".jsx", ".tsx"];
 
 // --- Utility Functions ---
 
