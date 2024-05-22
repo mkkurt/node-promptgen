@@ -16,17 +16,16 @@ Feel free to contribute to this project by adding more features or improving the
 - Lists dependencies from `package.json`.
 - Optionally adds a boilerplate prompt for AI analysis.
 
-## Installation
-
-1. Make sure you have Node.js and npm (Node Package Manager) installed.
-2. Install `node-promptgen` globally:
-   ```bash
-   npm install -g node-promptgen
-   ```
-
 ## Usage
 
-1. Run the script.
+1. Run the following command in your terminal:
+
+```bash
+git clone https://github.com/mkkurt/node-promptgen.git
+cd node-promptgen
+npm install
+npm start
+```
 
 2. Follow the prompts to enter your project directory and choose whether to include the boilerplate analysis prompt.
 
