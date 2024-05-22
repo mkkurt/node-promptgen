@@ -10,8 +10,8 @@ Feel free to contribute to this project by adding more features or improving the
 
 ## Features
 
-- Extracts code snippets from `.js` files.
-- Ignores the `node_modules` directory and other non-essential files.
+- Extracts code snippets from supported file types, which can be customized in the `SUPPORTED_FILE_TYPES` array.
+- Ignores the `node_modules` and `.git` directories. You can also add more directories to ignore in the `IGNORE_DIRECTORIES` array.
 - Includes project folder structure.
 - Lists dependencies from `package.json`.
 - Optionally adds a boilerplate prompt for AI analysis.
