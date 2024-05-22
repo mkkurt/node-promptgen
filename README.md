@@ -11,6 +11,7 @@ Feel free to contribute to this project by adding more features or improving the
 ## Features
 
 - Extracts code snippets from `.js` files.
+- Ignores the `node_modules` directory and other non-essential files.
 - Includes project folder structure.
 - Lists dependencies from `package.json`.
 - Optionally adds a boilerplate prompt for AI analysis.
