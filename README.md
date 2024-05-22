@@ -22,4 +22,13 @@ Feel free to contribute to this project by adding more features or improving the
    ```bash
    npm install -g node-promptgen
    ```
-3. Generated prompt will be saved in the target project folder.
+
+## Usage
+
+1. Run the script.
+
+2. Follow the prompts to enter your project directory and choose whether to include the boilerplate analysis prompt.
+
+3. The tool will generate a project_prompt.txt file in your project directory.
+
+4. Use this prompt with your preferred AI language model to get a detailed analysis and ask questions about your project.
