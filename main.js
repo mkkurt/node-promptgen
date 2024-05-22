@@ -6,6 +6,7 @@ import readline from "readline";
 
 const DEFAULT_OUTPUT_FILENAME = "project_prompt.txt";
 const SUPPORTED_FILE_TYPES = [".js", ".ts", ".jsx", ".tsx"];
+const IGNORED_DIRECTORIES = ["node_modules", ".git"];
 
 // --- Utility Functions ---
 
@@ -20,7 +21,7 @@ function traverseDirectory(
     const filePath = path.join(dirPath, file);
     const stat = fs.statSync(filePath);
 
-    if (stat.isDirectory() && file !== "node_modules" && file !== ".git") {
+    if (stat.isDirectory() && !IGNORED_DIRECTORIES.includes(file)) {
       result.structure += `${prefix}- ${file}/\n`;
       traverseDirectory(filePath, prefix + "  ", result);
     } else if (
