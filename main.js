@@ -13,7 +13,8 @@ const IGNORED_DIRECTORIES = ["node_modules", ".git"];
 function traverseDirectory(
   dirPath,
   prefix = "",
-  result = { structure: "", codeSnippets: [], dependencies: {} }
+  result = { structure: "", codeSnippets: [], dependencies: {} },
+  ignoredFilesAndDirs = []
 ) {
   const files = fs.readdirSync(dirPath);
 
@@ -21,9 +22,16 @@ function traverseDirectory(
     const filePath = path.join(dirPath, file);
     const stat = fs.statSync(filePath);
 
+    if (
+      ignoredFilesAndDirs.includes(file) ||
+      ignoredFilesAndDirs.includes(`/${file}/`)
+    ) {
+      continue;
+    }
+
     if (stat.isDirectory() && !IGNORED_DIRECTORIES.includes(file)) {
       result.structure += `${prefix}- ${file}/\n`;
-      traverseDirectory(filePath, prefix + "  ", result);
+      traverseDirectory(filePath, prefix + "  ", result, ignoredFilesAndDirs);
     } else if (
       stat.isFile() &&
       SUPPORTED_FILE_TYPES.includes(path.extname(file))
@@ -81,7 +89,6 @@ const rl = readline.createInterface({
 });
 
 function askIncludePrompt(projectRoot, structure, dependencies, codeSnippets) {
-  // Add projectRoot as a parameter
   rl.question("Include boilerplate analysis prompt? (yes/no): ", (answer) => {
     const includePrompt = answer.toLowerCase() === "yes";
     const promptTemplate = buildPrompt(
@@ -91,7 +98,7 @@ function askIncludePrompt(projectRoot, structure, dependencies, codeSnippets) {
       codeSnippets
     );
 
-    const promptFilePath = path.join(projectRoot, DEFAULT_OUTPUT_FILENAME); // Use projectRoot here
+    const promptFilePath = path.join(projectRoot, DEFAULT_OUTPUT_FILENAME);
     fs.writeFileSync(promptFilePath, promptTemplate);
     console.log("Project prompt created successfully:", promptFilePath);
 
@@ -99,19 +106,47 @@ function askIncludePrompt(projectRoot, structure, dependencies, codeSnippets) {
   });
 }
 
+function convertToAbsolutePath(relativePath) {
+  if (relativePath.startsWith("")) {
+    return path.resolve(process.env.HOME, relativePath.slice(1));
+  } else if (relativePath.startsWith(".")) {
+    return path.resolve(process.cwd(), relativePath);
+  } else {
+    return path.resolve(process.cwd(), relativePath);
+  }
+}
+
+function askCustomIgnoredFilesAndDirs(callback) {
+  rl.question(
+    "Enter custom files or folders to ignore (separated by commas): ",
+    (answer) => {
+      const ignoredFilesAndDirs = answer.split(",").map((item) => item.trim());
+      callback(ignoredFilesAndDirs);
+    }
+  );
+}
+
 rl.question("Enter the path to your project directory: ", (projectRoot) => {
+  console.log("Project root:", projectRoot);
   if (!fs.existsSync(projectRoot) || !fs.statSync(projectRoot).isDirectory()) {
     console.error("Error: Invalid directory path.");
-    rl.close(); // Close readline on error
+    rl.close();
     process.exit(1);
   }
 
-  const result = traverseDirectory(projectRoot);
+  askCustomIgnoredFilesAndDirs((ignoredFilesAndDirs) => {
+    const result = traverseDirectory(
+      projectRoot,
+      "",
+      { structure: "", codeSnippets: [], dependencies: {} },
+      ignoredFilesAndDirs
+    );
 
-  askIncludePrompt(
-    projectRoot,
-    result.structure,
-    result.dependencies,
-    result.codeSnippets
-  ); // Pass projectRoot to askIncludePrompt
+    askIncludePrompt(
+      projectRoot,
+      result.structure,
+      result.dependencies,
+      result.codeSnippets
+    );
+  });
 });
