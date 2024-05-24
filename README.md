@@ -11,10 +11,10 @@ Feel free to contribute to this project by adding more features or improving the
 ## Features
 
 - Extracts code snippets from supported file types, which can be customized in the `SUPPORTED_FILE_TYPES` array.
-- Ignores the `node_modules` and `.git` directories. You can also add more directories to ignore in the `IGNORE_DIRECTORIES` array.
-- Includes project folder structure.
+- Ignores the `node_modules` and `.git` directories. You can also add more, tool will ask for it.
+- Extracts project folder structure and includes it in the prompt.
 - Lists dependencies from `package.json`.
-- Optionally adds a boilerplate prompt for AI analysis.
+- Optionally adds a basic boilerplate explainer prompt.
 
 ## Usage
 
@@ -27,8 +27,8 @@ npm install
 npm start
 ```
 
-2. Follow the prompts to enter your project directory and choose whether to include the boilerplate analysis prompt.
+2. Follow the prompts to enter your project directory, add custom ignore list and choose whether to include the boilerplate analysis prompt.
 
-3. The tool will generate a project_prompt.txt file in your project directory.
+3. The tool will generate a project_prompt.txt file in your *target project directory*.
 
-4. Use this prompt with your preferred AI language model to get a detailed analysis and ask questions about your project.
+4. Use the generated prompt with your preferred AI language model to get a detailed analysis and ask questions about your project.
