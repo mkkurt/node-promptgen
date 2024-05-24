@@ -1,6 +1,6 @@
 # node-promptgen
 
-Generate prompts for AI analysis of your Node.js projects.
+Generate prompts for AI analysis of your JS projects.
 
 ## Description
 
